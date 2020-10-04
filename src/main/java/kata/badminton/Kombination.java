@@ -1,11 +1,14 @@
 package kata.badminton;
 
 import java.util.AbstractList;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /**
  * Entspricht einer Besetzung der vier Spielfelder mit acht Spielern.
@@ -14,13 +17,13 @@ import java.util.TreeSet;
  */
 class Kombination extends AbstractList<SortedSet> {
     public static final int ANZAHL_SPIELFELDER = 4;
-    private final List<SortedSet<Integer>> besetzung;
+    public static final int ANZAHL_SPIELER = 2 * ANZAHL_SPIELFELDER;
+    private final Map<Integer, SortedSet<Integer>> besetzung;
 
     Kombination() {
-        besetzung = new ArrayList<>();
-        for (int i = 0; i < ANZAHL_SPIELFELDER; i++) {
-            besetzung.add(new TreeSet<Integer>());
-        }
+        besetzung = new HashMap<>();
+        IntStream.range(0, ANZAHL_SPIELFELDER)
+                 .forEach(i -> besetzung.put(i, new TreeSet<Integer>()));
     }
 
     @Override
@@ -34,23 +37,36 @@ class Kombination extends AbstractList<SortedSet> {
     }
 
     boolean isGültig() {
-        return false;
+        return size() == 4 && anzahlSpieler() == 8;
     }
+
+    /**
+     * @return Anzahl der <b>unterschiedlicher</b> Spieler auf allen Spielfeldern
+     */
+    int anzahlSpieler() {
+        return besetzung.values()
+                        .stream()
+                        .flatMap(Set::stream)
+                        .collect(Collectors.toSet())
+                        .size();
+
+    }
+
 
     /**
      * Bitte keine Doppelten
      *
-     * @param feldNr Nummer des Spielfelds startend mit 0
-     * @param nr1    Nummer des ersten Spielers
-     * @param nr2    Nummer des zweiten Spielers
+     * @param feld     Nummer des Spielfelds startend mit 0
+     * @param spieler1 Nummer des ersten Spielers
+     * @param spieler2 Nummer des zweiten Spielers
      */
-    void put(final int feldNr, final int nr1, int nr2) {
-        Objects.checkIndex(feldNr, besetzung.size());
-        Objects.checkIndex(nr1, 8);
-        Objects.checkIndex(nr2, 8);
+    void put(final int feld, final int spieler1, int spieler2) {
+        Objects.checkIndex(feld, besetzung.size());
+        Objects.checkIndex(spieler1, ANZAHL_SPIELER);
+        Objects.checkIndex(spieler2, ANZAHL_SPIELER);
 
-        var spielfeld = get(feldNr);
-        spielfeld.add(nr1);
-        spielfeld.add(nr2);
+        var spielfeld = get(feld);
+        spielfeld.add(spieler1);
+        spielfeld.add(spieler2);
     }
 }
