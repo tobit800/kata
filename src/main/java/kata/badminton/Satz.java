@@ -8,4 +8,8 @@ class Satz {
         this.feld2 = feld2;
     }
 
+    void computeGegner() {
+        feld1.alleGegner();
+    }
+
 }

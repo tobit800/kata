@@ -54,4 +54,9 @@ public class Feld {
     }
 
 
+    private void alleGegner() {
+        alle().stream()
+              .map(spieler -> gegner(spieler))
+              .flatMap(s -> EnumSet.allOf(s));
+    }
 }
