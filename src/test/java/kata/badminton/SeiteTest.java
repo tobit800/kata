@@ -14,6 +14,18 @@ class SeiteTest {
     }
 
     @Test
+    void toStringTest() {
+        var s = seite.toString();
+        assertThat(s).contains("links", "A", "B");
+    }
+
+    @Test
+    void getSpieler() {
+        var spielers = seite.getSpielers();
+        assertThat(spielers).containsExactly(Spieler.A, Spieler.B);
+    }
+
+    @Test
     void mitSpielerVorhanden() {
         var mitspieler = seite.mitspieler(Spieler.A);
         assertThat(mitspieler).containsSame(Spieler.B);
@@ -24,5 +36,4 @@ class SeiteTest {
         var mitspieler = seite.mitspieler(Spieler.C);
         assertThat(mitspieler).isEmpty();
     }
-
 }

@@ -22,6 +22,13 @@ class FeldTest {
     }
 
     @Test
+    void alleSpieler() {
+        var alleSpieler = feld.alleSpieler();
+        assertThat(alleSpieler).containsAll(feld.linkeSpieler())
+                               .containsAll(feld.rechteSpieler());
+    }
+
+    @Test
     void seiteVonSpielerA() {
         var seite = feld.seiteVon(Spieler.A)
                         .get();

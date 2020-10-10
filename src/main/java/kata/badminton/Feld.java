@@ -1,6 +1,7 @@
 package kata.badminton;
 
 import java.util.EnumMap;
+import java.util.EnumSet;
 import java.util.Optional;
 import java.util.Set;
 
@@ -27,7 +28,6 @@ public class Feld {
         seiten.put(links, new Seite(links, s1, s2));
         seiten.put(rechts, new Seite(rechts, s3, s4));
     }
-
     Seite links() {
         return seiten.get(links);
     }
@@ -44,6 +44,12 @@ public class Feld {
         return rechts().getSpielers();
     }
 
+    Set<Spieler> alleSpieler() {
+        var copy = EnumSet.copyOf(linkeSpieler());
+        copy.addAll(rechteSpieler());
+        return copy;
+    }
+
     Optional<Seite> seiteVon(Spieler spieler) {
         if (linkeSpieler().contains(spieler)) {
             return Optional.of(links());
@@ -57,11 +63,9 @@ public class Feld {
     Seite gegen(Seite seite) {
         return seiten.get(seite.richtung.gegen());
     }
-
     Optional<Seite> gegen(Spieler spieler) {
         return seiteVon(spieler).map(this::gegen);
     }
-
     Set<Spieler> gegner(final Spieler spieler) {
         return gegen(spieler).<Set<Spieler>>map(Seite::getSpielers).orElseGet(Set::of);
     }
