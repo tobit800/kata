@@ -1,6 +1,7 @@
 package kata.badminton;
 
 import java.util.EnumSet;
+import java.util.Optional;
 
 class Seite {
     private final EnumSet<Spieler> spielers;
@@ -17,4 +18,16 @@ class Seite {
     public String toString() {
         return "Seite{" + "spielers=" + spielers + '}';
     }
+
+    Optional<Spieler> mitspieler(Spieler spieler) {
+        if (spielers.contains(spieler)) {
+            return spielers.stream()
+                           .filter(sp -> !sp.equals(spieler))
+                           .findFirst();
+        } else {
+            return Optional.empty();
+        }
+    }
+
+
 }
