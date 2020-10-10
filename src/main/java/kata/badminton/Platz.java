@@ -3,6 +3,7 @@ package kata.badminton;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Der Platz enthält zwei Felder.
@@ -15,7 +16,8 @@ class Platz {
     }
 
     public Set<Spieler> alleSpieler() {
-        //        felder.stream().flatMap(Feld::)
-        return null;
+        return felder.stream()
+                     .flatMap(Feld::alleSpielerStream)
+                     .collect(Collectors.toSet());
     }
 }

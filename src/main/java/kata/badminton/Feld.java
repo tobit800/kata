@@ -4,6 +4,7 @@ import java.util.EnumMap;
 import java.util.EnumSet;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Stream;
 
 import static java.util.Optional.empty;
 import static kata.badminton.Richtung.links;
@@ -48,6 +49,10 @@ public class Feld {
         var copy = EnumSet.copyOf(linkeSpieler());
         copy.addAll(rechteSpieler());
         return copy;
+    }
+
+    Stream<Spieler> alleSpielerStream() {
+        return alleSpieler().stream();
     }
 
     Optional<Seite> seiteVon(Spieler spieler) {
