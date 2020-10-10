@@ -1,57 +1,68 @@
 package kata.badminton;
 
-import java.util.EnumSet;
+import java.util.EnumMap;
+import java.util.Optional;
+import java.util.Set;
 
-import static java.text.MessageFormat.format;
+import static java.util.Optional.empty;
+import static kata.badminton.Richtung.links;
+import static kata.badminton.Richtung.rechts;
 
+/**
+ * Ein Feld besteht aus den zwei Seiten mit den Richtungen links und rechts.
+ * Auf jeder Seite stehen genau zwei Spieler.
+ */
 public class Feld {
-    private Seite links, rechts;
+    private final EnumMap<Richtung, Seite> seiten = new EnumMap<>(Richtung.class);
 
+    /**
+     * Platziert die vier Spiler in diesem Feld, zwei je Seite.
+     *
+     * @param s1 1. Spieler auf die linke Seite
+     * @param s2 2. Spieler auf die linke Seite
+     * @param s3 3. Spieler auf die rechte Seite
+     * @param s4 4. Spieler auf die rechte Seite
+     */
     public Feld(final Spieler s1, final Spieler s2, final Spieler s3, final Spieler s4) {
-        links = new Seite(s1, s2);
-        rechts = new Seite(s3, s4);
+        seiten.put(links, new Seite(links, s1, s2));
+        seiten.put(rechts, new Seite(rechts, s3, s4));
     }
 
-    EnumSet<Spieler> links() {
-        return links.getSpielers();
+    Seite links() {
+        return seiten.get(links);
     }
 
-    EnumSet<Spieler> rechts() {
-        return rechts.getSpielers();
+    Seite rechts() {
+        return seiten.get(rechts);
     }
 
-    Seite gegenüber(Seite seite) {
-        return seite == links ? rechts : links;
+    Set<Spieler> linkeSpieler() {
+        return links().getSpielers();
     }
 
-    EnumSet<Spieler> alle() {
-        var spielers = EnumSet.copyOf(links());
-        spielers.addAll(rechts());
-        return spielers;
+    Set<Spieler> rechteSpieler() {
+        return rechts().getSpielers();
     }
 
-    EnumSet<Spieler> gegner(Spieler spieler) {
-        return gegenüber(seite(spieler)).getSpielers();
-    }
-
-    private Seite seite(final Spieler spieler) {
-        if (links().contains(spieler)) {
-            return links;
-        } else if (rechts().contains(spieler)) {
-            return rechts;
-        } else {
-            var msg = format("Spieler {0} spielt nicht auf diesem Feld!", spieler);
-            throw new IllegalArgumentException(msg);
+    Optional<Seite> seiteVon(Spieler spieler) {
+        if (linkeSpieler().contains(spieler)) {
+            return Optional.of(links());
         }
+        if (rechteSpieler().contains(spieler)) {
+            return Optional.of(rechts());
+        }
+        return empty();
     }
 
-    Spieler mitspieler(Spieler spieler) {
-        return seite(spieler).getSpielers()
-                             .stream()
-                             .filter(s -> s != spieler)
-                             .findFirst()
-                             .orElseThrow();
+    Seite gegen(Seite seite) {
+        return seiten.get(seite.richtung.gegen());
     }
 
+    Optional<Seite> gegen(Spieler spieler) {
+        return seiteVon(spieler).map(this::gegen);
+    }
 
+    Set<Spieler> gegner(final Spieler spieler) {
+        return gegen(spieler).<Set<Spieler>>map(Seite::getSpielers).orElseGet(Set::of);
+    }
 }

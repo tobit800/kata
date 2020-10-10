@@ -2,21 +2,26 @@ package kata.badminton;
 
 import org.junit.jupiter.api.Test;
 
+import static kata.badminton.Richtung.links;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class SeiteTest {
+    private final Seite seite = new Seite(links, Spieler.A, Spieler.B);
 
-    private final Seite seite = new Seite(Spieler.a, Spieler.b);
+    @Test
+    void linkeSeite() {
+        assertThat(seite.richtung).isEqualTo(links);
+    }
 
     @Test
     void mitSpielerVorhanden() {
-        var mitspieler = seite.mitspieler(Spieler.a);
-        assertThat(mitspieler).containsSame(Spieler.b);
+        var mitspieler = seite.mitspieler(Spieler.A);
+        assertThat(mitspieler).containsSame(Spieler.B);
     }
 
     @Test
     void mitSpielerNichtVorhanden() {
-        var mitspieler = seite.mitspieler(Spieler.c);
+        var mitspieler = seite.mitspieler(Spieler.C);
         assertThat(mitspieler).isEmpty();
     }
 

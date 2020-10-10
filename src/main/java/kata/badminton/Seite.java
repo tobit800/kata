@@ -3,20 +3,20 @@ package kata.badminton;
 import java.util.EnumSet;
 import java.util.Optional;
 
+/**
+ * Die Seite hat eine Richtung und zwei Spieler.
+ */
 class Seite {
+    final Richtung richtung;
     private final EnumSet<Spieler> spielers;
 
-    Seite(Spieler spieler1, Spieler spieler2) {
-        this.spielers = EnumSet.of(spieler1, spieler2);
+    Seite(final Richtung richtung, Spieler sp1, Spieler sp2) {
+        this.richtung = richtung;
+        this.spielers = EnumSet.of(sp1, sp2);
     }
 
     EnumSet<Spieler> getSpielers() {
         return spielers;
-    }
-
-    @Override
-    public String toString() {
-        return "Seite{" + "spielers=" + spielers + '}';
     }
 
     Optional<Spieler> mitspieler(Spieler spieler) {
@@ -29,5 +29,8 @@ class Seite {
         }
     }
 
-
+    @Override
+    public String toString() {
+        return "Seite{ %s spielers=%s}".formatted(richtung, spielers);
+    }
 }
