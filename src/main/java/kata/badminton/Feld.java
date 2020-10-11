@@ -1,7 +1,6 @@
 package kata.badminton;
 
 import java.util.EnumMap;
-import java.util.EnumSet;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Stream;
@@ -29,6 +28,7 @@ public class Feld {
         seiten.put(links, new Seite(links, s1, s2));
         seiten.put(rechts, new Seite(rechts, s3, s4));
     }
+
     Seite links() {
         return seiten.get(links);
     }
@@ -46,9 +46,9 @@ public class Feld {
     }
 
     Set<Spieler> alleSpieler() {
-        var copy = EnumSet.copyOf(linkeSpieler());
-        copy.addAll(rechteSpieler());
-        return copy;
+        var alleSpieler = linkeSpieler();
+        alleSpieler.addAll(rechteSpieler());
+        return alleSpieler;
     }
 
     Stream<Spieler> alleSpielerStream() {
@@ -65,13 +65,24 @@ public class Feld {
         return empty();
     }
 
-    Seite gegen(Seite seite) {
+    boolean contains(Spieler spieler) {
+        return alleSpieler().contains(spieler);
+    }
+
+    Spieler mitSpieler(Spieler spieler) {
+        return links().mitspieler(spieler)
+                      .orElseGet(rechts().mitspieler(spieler)::get);
+    }
+
+    Seite gegenseite(Seite seite) {
         return seiten.get(seite.richtung.gegen());
     }
-    Optional<Seite> gegen(Spieler spieler) {
-        return seiteVon(spieler).map(this::gegen);
+
+    Optional<Seite> gegenseite(Spieler spieler) {
+        return seiteVon(spieler).map(this::gegenseite);
     }
+
     Set<Spieler> gegner(final Spieler spieler) {
-        return gegen(spieler).<Set<Spieler>>map(Seite::getSpielers).orElseGet(Set::of);
+        return gegenseite(spieler).<Set<Spieler>>map(Seite::getSpielers).orElseGet(Set::of);
     }
 }

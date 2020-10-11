@@ -51,8 +51,24 @@ class FeldTest {
     @Test
     void gegenseite() {
         var linkeSeite = feld.links();
-        var gegenSeite = feld.gegen(linkeSeite);
+        var gegenSeite = feld.gegenseite(linkeSeite);
         assertThat(gegenSeite.richtung).isEqualTo(rechts);
+    }
+
+    @Test
+    void containsSpielerA() {
+        assertThat(feld.contains(Spieler.A)).isTrue();
+    }
+
+    @Test
+    void containsNotSpielerE() {
+        assertThat(feld.contains(Spieler.E)).isFalse();
+    }
+
+    @Test
+    void mitspielerSpielerA() {
+        var mitSpieler = feld.mitSpieler(Spieler.A);
+        assertThat(mitSpieler).isEqualTo(Spieler.B);
     }
 
     @Test

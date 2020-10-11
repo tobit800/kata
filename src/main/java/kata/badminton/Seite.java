@@ -15,16 +15,11 @@ class Seite {
         this.spielers = EnumSet.of(sp1, sp2);
     }
 
-    @Override
-    public String toString() {
-        return "Seite{ %s spielers=%s}".formatted(richtung, spielers);
+    public EnumSet<Spieler> getSpielers() {
+        return EnumSet.copyOf(spielers);
     }
 
-    EnumSet<Spieler> getSpielers() {
-        return spielers;
-    }
-
-    Optional<Spieler> mitspieler(Spieler spieler) {
+    public Optional<Spieler> mitspieler(Spieler spieler) {
         var copy = EnumSet.copyOf(spielers);
         if (copy.remove(spieler)) {
             return copy.stream()
@@ -32,5 +27,11 @@ class Seite {
         } else {
             return Optional.empty();
         }
+    }
+
+
+    @Override
+    public String toString() {
+        return "Seite{ %s spielers=%s}".formatted(richtung, spielers);
     }
 }
