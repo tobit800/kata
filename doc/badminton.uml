@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>kata.badminton</OriginalElement>
+  <nodes>
+    <node x="255.875" y="0.0">kata.badminton.Gegenrichtung</node>
+    <node x="233.875" y="109.0">kata.badminton.Richtung</node>
+    <node x="136.5" y="419.0">kata.badminton.Feld</node>
+    <node x="4.875" y="120.5">kata.badminton.Spieler</node>
+    <node x="370.0" y="851.0">kata.badminton.Satz</node>
+    <node x="0.0" y="781.0">kata.badminton.Platz</node>
+    <node x="30.125" y="264.0">kata.badminton.Seite</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="kata.badminton.Satz" target="kata.badminton.Feld">
+      <point x="0.0" y="-17.0" />
+      <point x="414.0" y="756.0" />
+      <point x="373.5" y="756.0" />
+      <point x="79.0" y="156.0" />
+    </edge>
+    <edge source="kata.badminton.Feld" target="kata.badminton.Seite">
+      <point x="-79.0" y="-156.0" />
+      <point x="215.5" y="394.0" />
+      <point x="188.625" y="394.0" />
+      <point x="0.0" y="52.5" />
+    </edge>
+    <edge source="kata.badminton.Seite" target="kata.badminton.Spieler">
+      <point x="-79.25" y="-52.5" />
+      <point x="0.0" y="41.0" />
+    </edge>
+    <edge source="kata.badminton.Feld" target="kata.badminton.Richtung">
+      <point x="79.0" y="-156.0" />
+      <point x="373.5" y="394.0" />
+      <point x="400.375" y="394.0" />
+      <point x="55.5" y="52.5" />
+    </edge>
+    <edge source="kata.badminton.Richtung" target="kata.badminton.Gegenrichtung">
+      <point x="0.0" y="-52.5" />
+      <point x="0.0" y="29.5" />
+    </edge>
+    <edge source="kata.badminton.Seite" target="kata.badminton.Richtung">
+      <point x="79.25" y="-52.5" />
+      <point x="267.875" y="239.0" />
+      <point x="289.375" y="239.0" />
+      <point x="-55.5" y="52.5" />
+    </edge>
+    <edge source="kata.badminton.Platz" target="kata.badminton.Feld">
+      <point x="0.0" y="-87.0" />
+      <point x="175.0" y="756.0" />
+      <point x="215.5" y="756.0" />
+      <point x="-79.0" y="156.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.8388017118402282" x="575.5331632653061" y="534.8248299319728" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Methods</Category>
+  </Categories>
+  <SCOPE>Production</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
