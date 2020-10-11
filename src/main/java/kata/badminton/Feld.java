@@ -69,7 +69,7 @@ public class Feld {
         return alleSpieler().contains(spieler);
     }
 
-    Spieler mitSpieler(Spieler spieler) {
+    Spieler mitspieler(Spieler spieler) {
         return links().mitspieler(spieler)
                       .orElseGet(rechts().mitspieler(spieler)::get);
     }

@@ -19,6 +19,18 @@ class PlatzTest {
     }
 
     @Test
+    void feldVonSpielerA() {
+        var feld = platz.feldVon(Spieler.A);
+        assertThat(feld).isEqualTo(feld1);
+    }
+
+    @Test
+    void feldVonSpielerH() {
+        var feld = platz.feldVon(Spieler.H);
+        assertThat(feld).isEqualTo(feld2);
+    }
+
+    @Test
     void mitspielerSpielerA() {
         var mitspieler = platz.mitspieler(Spieler.A);
         assertThat(mitspieler).isEqualTo(Spieler.B);
@@ -56,5 +68,36 @@ class PlatzTest {
         var mitSpieler = platz.alleMitSpieler()
                               .get(Spieler.H);
         assertThat(mitSpieler).isEqualTo(Spieler.G);
+    }
+
+    @Test
+    void gegnerVonSpielerA() {
+        var gegner = platz.gegner(Spieler.A);
+        assertThat(gegner).contains(Spieler.C, Spieler.D);
+    }
+
+    @Test
+    void gegnerVonSpielerG() {
+        var gegner = platz.gegner(Spieler.G);
+        assertThat(gegner).contains(Spieler.E, Spieler.F);
+    }
+
+    @Test
+    void alleGegnerKomplett() {
+        var gesamt = EnumSet.allOf(Spieler.class);
+        var alleGegner = platz.alleGegner();
+        assertThat(alleGegner).containsOnlyKeys(gesamt);
+    }
+
+    @Test
+    void alleGegnerSpielerA() {
+        var alleGegner = platz.alleGegner();
+        assertThat(alleGegner.get(Spieler.A)).containsExactly(Spieler.C, Spieler.D);
+    }
+
+    @Test
+    void alleGegnerSpielerG() {
+        var alleGegner = platz.alleGegner();
+        assertThat(alleGegner.get(Spieler.G)).containsExactly(Spieler.E, Spieler.F);
     }
 }

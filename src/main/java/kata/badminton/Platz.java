@@ -17,10 +17,22 @@ class Platz {
         felder = Arrays.asList(feld1, feld2);
     }
 
+    Feld feldVon(Spieler spieler) {
+        return felder.stream()
+                     .filter(feld -> feld.contains(spieler))
+                     .findFirst()
+                     .orElseThrow(() -> new IllegalArgumentException(
+                             "Spieler {0} ist nicht auf diesem Platz {}".formatted(spieler, this)));
+    }
+
     public Set<Spieler> alleSpieler() {
         return felder.stream()
                      .flatMap(Feld::alleSpielerStream)
                      .collect(Collectors.toSet());
+    }
+
+    Spieler mitspieler(final Spieler spieler) {
+        return feldVon(spieler).mitspieler(spieler);
     }
 
     public Map<Spieler, Spieler> alleMitSpieler() {
@@ -28,12 +40,12 @@ class Platz {
                             .collect(Collectors.toMap(Function.identity(), spieler -> mitspieler(spieler)));
     }
 
-    Spieler mitspieler(final Spieler spieler) {
-        return felder.stream()
-                     .filter(feld -> feld.contains(spieler))
-                     .map(feld -> feld.mitSpieler(spieler))
-                     .findFirst()
-                     .orElseThrow(IllegalArgumentException::new);
+    Set<Spieler> gegner(Spieler spieler) {
+        return feldVon(spieler).gegner(spieler);
     }
 
+    public Map<Spieler, Set<Spieler>> alleGegner() {
+        return alleSpieler().stream()
+                            .collect(Collectors.toMap(Function.identity(), spieler -> gegner(spieler)));
+    }
 }

@@ -67,7 +67,7 @@ class FeldTest {
 
     @Test
     void mitspielerSpielerA() {
-        var mitSpieler = feld.mitSpieler(Spieler.A);
+        var mitSpieler = feld.mitspieler(Spieler.A);
         assertThat(mitSpieler).isEqualTo(Spieler.B);
     }
 
